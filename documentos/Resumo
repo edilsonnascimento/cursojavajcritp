@@ -1,11 +1,127 @@
-JavaScript: Programando na linguagem da web
+01 - Introdução
 
 01- Sim, o curso foi atualizado
 
 02 - Por que aprender JavaScript?
 Pode usar:
 
-- Browser: linguagem nativa do browser.
-- Backend: com Node.JS para criar API's e o banco MongoDB.
-- 
+- Browser(cliente): linguagem nativa do browser.
+- Backend(servidor): com Node.JS para criar API's e o banco MongoDB.
+- Arduino(Internet das Coisas); utilizando a biblioteca Johnny-Five.
+- Desktop: utilizando o framework Electron
+
+03 - Por que estudar Javascript?
+O Javascript é uma das linguagens mais importantes de nosso tempo porque:
+é uma linguagem que, além de ser a padrão nos navegadores atuais, vem expandindo para outras áreas como servidores, banco de dados e até plataformas de Internet of Things.
+
+04 - Olá Mundo com JavaScript
+
+- Baixado projeto base para o curso.
+- Utilizado o visual studio.
+- utilizado comandos.
+
+
+05 - Interpretando scripts no navegador
+
+Sabemos que o navegador entende apenas HTML e que se colocarmos scripts diretamente no corpo da mensagem ele será interpretado como texto. Como resolvemos isso?
+A tag <script> é responsável por nos ajudar a resolver este problema. Tudo que declaramos dentro da tag <script> é interpretado como Javascript quando o navegador passar por ali.
+No caso abaixo:
+<script>
+alert("Olá mundo");
+</script>
+Quando o navegador passar pela tag abaixo ele vai interprar o texto "alert("Olá mundo");" e irá executar a função alert(), que é responsável por exibir uma pop up com a mensagem Olá mundo.
+
+
+06 - Uma mensagem no navegador
+Ao abrir o HTML abaixo em um navegador, o que irá acontecer ?
+<html>
+    <head>
+    </head>
+    <body>
+        <h1>Minha página com Javascript</h1>
+        <script>
+            Olá mundo!
+        </script>
+    </body>
+</html>
+No entanto, quando ler a tag <script>, o navegador entende que todo texto que está dentro da tag <script> deve ser lido como um Javascript, logo ele vai tentar interpretar a frase "Olá Mundo" como se fosse uma função Javascript válido. O que sabemos que não é, e então ele exibirá um erro de Unexpected Identifier, que nada mais é o que ele dizendo através do console de desenvolvedor que ele não entende "Olá mundo" como uma de suas funções.
+Saber identificar e interpretar os erros do console é uma habilidade de todo bom desenvolvedor Javascript, então é bom começarmos a praticá-la desde já.
+Se desejamos que uma mensagem seja exibida no console, devemos sempre chamar a função console.log(), que é a função que recebe como parâmetro o conteúdo da mensagem que queremos exibir no console.
+
+
+07 - Query Selector
+Seleciona itens da página.
+Seleciona conteúdo do H1
+document.querySelector("h1");
+
+Seleciona conteúdo e guarda em uma variável:
+var titulo = document.querySelector("h1");
+
+Altera o conteúdo do titulo
+titulo.textContent = "Novo titulo";
+
+
+08 - Boas Práticas
+
+Separar o código html do código javaScritp.
+- Criar um arquivo com a extensão .JS
+
+- Importar esse arquivo no código html pela tag <scrtip>
+<script src="js/principal.js"></script>
+
+Outra boa prática é selecionar elementos CSS e não tags HTLM
+- Selecionado TAG
+var titulo = document.querySelector("h1");
+
+- Selecinando CSS
+var titulo = document.querySelector(".container");
+
+
+09 - Estrutura do curso
+Exercicios propostos
+
+10 - Console do desenvolvedor
+Usar console do desenvolvedor.
+
+
+11 - Importando um arquivo externo
+<script src="contador.js"></script>
+
+12 - Mensagem de boas vindas
+Qual opção abaixo substitui o hasheado (XXXX) por um código que exibe uma pop up com a mensagem bem vindo ?
+XXXX mensagem = "Seja bem vindo ao meu site!"
+XXXX(mensagem);
+
+var, alert
+
+13 - Um tal de document
+O document é uma variável muito importante do Javascript. Ela contém o DOM ou Document Object Model, que é como o navegador enxerga o HTML utilizado por ele para renderizar a página
+
+
+14 - Apenas um pedacinho...
+Sabemos que o document contém a representação de todo o HTML da nossa página, porém na maioria dos casos estamos interessados em apenas uma parte do HTML, e não nele todo.
+Qual função podemos utilizar na variável document para especificar que queremos trazer apenas uma parte do HTML ?
+
+document.querySelector();
+
+
+15 - Mãos na massa: Download Inicial e Setup
+
+Editor de texto:
+Atom, Sublime Text ou o Visual Studio Code
+
+A plataforma do Javascript: O navegador!Google Chrome 
+
+16 - Mãos na massa: O primeiro Javascript
+Implementado e enviado ao GitHub
+
+
+
+
+
+
+
+
+
+
 
