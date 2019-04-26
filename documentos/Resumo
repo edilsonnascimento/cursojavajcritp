@@ -1,127 +1,230 @@
-01 - Introdução
+02 - Variáveis e Operadores
 
-01- Sim, o curso foi atualizado
+01 - Buscando dados do paciente
 
-02 - Por que aprender JavaScript?
-Pode usar:
+Capturado campos do html DOM.
+Capiturado os campos Peso e Altura.
 
-- Browser(cliente): linguagem nativa do browser.
-- Backend(servidor): com Node.JS para criar API's e o banco MongoDB.
-- Arduino(Internet das Coisas); utilizando a biblioteca Johnny-Five.
-- Desktop: utilizando o framework Electron
+//Retorna o <tr> inteiro e guarda em paciente pelo #primeiro-paciente que é o ID do <tr class="paciente" id="primeiro-paciente">
+var paciente = document.querySelector("#primeiro-paciente"); 
 
-03 - Por que estudar Javascript?
-O Javascript é uma das linguagens mais importantes de nosso tempo porque:
-é uma linguagem que, além de ser a padrão nos navegadores atuais, vem expandindo para outras áreas como servidores, banco de dados e até plataformas de Internet of Things.
+//Retorna o <td> pela classe .info-peso
+var tdPeso = paciente.querySelector(".info-peso");
+//retorna o conteúdo do <td>
+var peso = tdPeso.textContent;
 
-04 - Olá Mundo com JavaScript
-
-- Baixado projeto base para o curso.
-- Utilizado o visual studio.
-- utilizado comandos.
+var tdAltura = paciente.querySelector(".info-altura");
+var altura = tdAltura.textContent;
 
 
-05 - Interpretando scripts no navegador
+02 - Acessando elementos dentro de outro elemento
 
-Sabemos que o navegador entende apenas HTML e que se colocarmos scripts diretamente no corpo da mensagem ele será interpretado como texto. Como resolvemos isso?
-A tag <script> é responsável por nos ajudar a resolver este problema. Tudo que declaramos dentro da tag <script> é interpretado como Javascript quando o navegador passar por ali.
-No caso abaixo:
-<script>
-alert("Olá mundo");
-</script>
-Quando o navegador passar pela tag abaixo ele vai interprar o texto "alert("Olá mundo");" e irá executar a função alert(), que é responsável por exibir uma pop up com a mensagem Olá mundo.
+Temos o seguinte fragmento HTML:
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Peso(kg)</th>
+            <th>Altura(m)</th>
+            <th>Gordura Corporal(%)</th>
+            <th>IMC</th>
+        </tr>
+    </thead>
+    <tbody id="tabela-pacientes">
+        <tr class="paciente" id="primeiro-paciente">
+            <td class="info-nome">Paulo</td>
+            <td class="info-peso">100</td>
+            <td class="info-altura">2.00</td>
+            <td class="info-gordura">10</td>
+            <td class="info-imc">0</td>
+        </tr>
+    </tbody>
+</table>
 
-
-06 - Uma mensagem no navegador
-Ao abrir o HTML abaixo em um navegador, o que irá acontecer ?
-<html>
-    <head>
-    </head>
-    <body>
-        <h1>Minha página com Javascript</h1>
-        <script>
-            Olá mundo!
-        </script>
-    </body>
-</html>
-No entanto, quando ler a tag <script>, o navegador entende que todo texto que está dentro da tag <script> deve ser lido como um Javascript, logo ele vai tentar interpretar a frase "Olá Mundo" como se fosse uma função Javascript válido. O que sabemos que não é, e então ele exibirá um erro de Unexpected Identifier, que nada mais é o que ele dizendo através do console de desenvolvedor que ele não entende "Olá mundo" como uma de suas funções.
-Saber identificar e interpretar os erros do console é uma habilidade de todo bom desenvolvedor Javascript, então é bom começarmos a praticá-la desde já.
-Se desejamos que uma mensagem seja exibida no console, devemos sempre chamar a função console.log(), que é a função que recebe como parâmetro o conteúdo da mensagem que queremos exibir no console.
-
-
-07 - Query Selector
-Seleciona itens da página.
-Seleciona conteúdo do H1
-document.querySelector("h1");
-
-Seleciona conteúdo e guarda em uma variável:
-var titulo = document.querySelector("h1");
-
-Altera o conteúdo do titulo
-titulo.textContent = "Novo titulo";
+Capturar o peso e altura
+var tdPeso = trPaciente.querySelector('.info-peso');
+var tdAltura = trPaciente.querySelector('.info-altura');
+Com JavaScript podemos obter um elemento pai, no caso trPaciente e dele realizar novas consultas para obter elementos filhos, como foi o caso das TD's de peso e altura.
 
 
-08 - Boas Práticas
+03 - O prato do dia
+<table>
+<thead>
+    <tr>            
+        <th>Salada</th>
+        <th>Prato Principal</th>
+        <th>Acompanhamento</th>
+    </tr>
+</thead>
+<tbody>
+    <tr class="prato-do-dia" id="sexta">
+        <td class='salada'>Alface e Tomate</td>
+        <td class='principal'>Frango Grelhado</td>
+        <td class='acompanhamento'>Arroz e Feijão preto</td>        
+    </tr>
+    ...Outros dias da semana
+    <tr class="prato-do-dia" id="segunda">
+        <td class='salada'>Salada de Batata</td>
+        <td class='principal'>Macarrão com molho branco</td>
+        <td class='acompanhamento'>Milho, ervilha e brócolis</td>        
+    </tr>
+</tbody>
+</table>
 
-Separar o código html do código javaScritp.
-- Criar um arquivo com a extensão .JS
+Exibir no console 
+Prato do dia!
+Alface e Tomate
+Frango Grelhado
+Arroz e Feijão Preto
+Qual código abaixo extrai as informações de um dia da tabela, por exemplo a sexta-feira, e imprime no console no formato que Mariana deseja?
 
-- Importar esse arquivo no código html pela tag <scrtip>
-<script src="js/principal.js"></script>
+Resposta:
+var pratoDoDia = document.querySelector("#sexta");
+var salada = pratoDoDia.querySelector(".salada").textContent;
+var principal = pratoDoDia.querySelector(".principal").textContent;
+var acompanhamento = pratoDoDia.querySelector(".acompanhamento").textContent;
 
-Outra boa prática é selecionar elementos CSS e não tags HTLM
-- Selecionado TAG
-var titulo = document.querySelector("h1");
-
-- Selecinando CSS
-var titulo = document.querySelector(".container");
-
-
-09 - Estrutura do curso
-Exercicios propostos
-
-10 - Console do desenvolvedor
-Usar console do desenvolvedor.
-
-
-11 - Importando um arquivo externo
-<script src="contador.js"></script>
-
-12 - Mensagem de boas vindas
-Qual opção abaixo substitui o hasheado (XXXX) por um código que exibe uma pop up com a mensagem bem vindo ?
-XXXX mensagem = "Seja bem vindo ao meu site!"
-XXXX(mensagem);
-
-var, alert
-
-13 - Um tal de document
-O document é uma variável muito importante do Javascript. Ela contém o DOM ou Document Object Model, que é como o navegador enxerga o HTML utilizado por ele para renderizar a página
-
-
-14 - Apenas um pedacinho...
-Sabemos que o document contém a representação de todo o HTML da nossa página, porém na maioria dos casos estamos interessados em apenas uma parte do HTML, e não nele todo.
-Qual função podemos utilizar na variável document para especificar que queremos trazer apenas uma parte do HTML ?
-
-document.querySelector();
-
-
-15 - Mãos na massa: Download Inicial e Setup
-
-Editor de texto:
-Atom, Sublime Text ou o Visual Studio Code
-
-A plataforma do Javascript: O navegador!Google Chrome 
-
-16 - Mãos na massa: O primeiro Javascript
-Implementado e enviado ao GitHub
+console.log("Prato do dia!");
+console.log(salada);
+console.log(principal);
+console.log(acompanhamento);
 
 
+04 - Calculando e exibindo o IMC corretamente
+Presedente da variável separa por parâmetro o que deve ser processado primeiro
+var imc = peso / (altura * altura);
 
 
+05 - Desmembrando uma instrução em variáveis
+
+Representar o comando no console alert(78 / (1.71 * 1.71));
+
+var peso = 78;
+var altura = 1.71;
+var imc = peso / (altura * altura);
+alert(imc);
 
 
+06 - O indicador enviesado
+Exercicio de ordem de operação
+
+Taxa Sucesso = número de Vendas * (número clientes aboradados x média de tentativas por cliente);
+
+07 - Operadores Lógicos
+
+var pesoEhValido = true;
+var alturaEhValida = true;
+
+if (peso < 0 || peso > 1000) {
+    console.log("Peso inválido!");
+    pesoEhValido = false;
+}
+
+if (altura < 0 || altura > 3.00) {
+    console.log("Altura inválida!");
+    alturaEhValida = false;
+}
+
+if (alturaEhValida && pesoEhValido) {
+    var imc = peso / (altura * altura);
+    tdImc.textContent = imc;
+}
 
 
+08 - Validando e exibindo resultado
+
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Peso(kg)</th>
+            <th>Altura(m)</th>
+            <th>Gordura Corporal(%)</th>
+            <th>IMC</th>
+        </tr>
+    </thead>
+    <tbody id="tabela-pacientes">
+        <tr class="paciente" id="primeiro-paciente">
+            <td class="info-nome">Paulo</td>
+            <td class="info-peso">100</td>
+            <td class="info-altura">2.00</td>
+            <td class="info-gordura">10</td>
+            <td class="info-imc">0</td>
+        </tr>
+    </tbody>
+</table>
+Segundo, o código JavaScript que manipula esse HTML:
+
+var trPaciente = document.querySelector('#primeiro-paciente');
+var tdPeso = trPaciente.querySelector('.info-peso');
+var peso = tdPeso.textContent;
+
+var tdAltura = trPaciente.querySelector('.info-altura'); 
+var altura = tdAltura.textContent;
+
+var tdImc = trPaciente.querySelector('.info-imc');
+
+var pesoEhValido = true;
+var alturaEhValida = true;
+
+if(peso <=0 || peso >= 1000) {
+    pesoEhValido = false;
+    tdImc.textContent = 'peso inválido';
+ }
+ 
+ if(altura <= 0 || altura >= 3.00) {
+   alturaEhValida = false;
+   tdImc.textContent = 'altura inválida';
+ }
+
+ console.log(pesoEhValido);
+ console.log(alturaEhValida);
+ 
+ if(pesoEhValido && alturaEhValida) {
+    var imc = peso / ( altura * altura);
+    tdImc.textContent = imc; 
+}
+
+09 - Informações escapando
+Funcionários de uma determinada área são acessíveis somente aos gerentes daquela área. Um código Javascript que verifica se um funcionário do setor de TI poderia ou não ter acesso aos dados. Funciona como consta abaixo:
+var setorTI = true;
+var gerente = true;
+if(setorTI == true || gerente == true){
+    console.log("Acesso permitido");
+}else{
+    console.log("Acesso negado")
+}   
+Quais funcionários têm acesso às informações do setor de TI.
+
+Como a condição lógica testada é um OU ( representado pelas barrinhas || no Javascript ), caso uma condição OU outra seja atendida, o acesso às informações é liberado, bastando-se cumprir uma delas.
+A primeira condição é setorTI == true, ou seja , se o funcionário for do setor de TI, ele já tem acesso, mesmo não sendo gerente.
+A segunda condição é gerente == true, ou seja, se o funcionário for gerente, o acesso é permitido, mesmo não sendo do setor de TI.
+
+
+Apenas gerentes que são do departamento de TItenham acesso aos dados de seus funcionários ?
+var setorTI = true;
+var gerente = false;
+if(setorTI == true || gerente == true){
+    console.log("Acesso permitido");
+}else{
+    console.log("Acesso negado")
+}
+
+Basta apenas trocar a condição lógica de OU (||) para E (&&) assim , só quem vai ter o acesso permitido são as pessoas que são do setor de TI E também são gerentes.
+Logo, o código final :
+var setorTI = true;
+var gerente = falSE;
+if(setorTI && gerente){
+    console.log("Acesso permitido");
+}else{
+    console.log("Acesso negado")
+}
+
+11 - Mãos na Massa: Calculando o IMC
+Implementado.
+
+12 - Mãos na Massa: Validando os dados do usuário
+Implementado
 
 
 
