@@ -1,230 +1,146 @@
-02 - Variáveis e Operadores
+03 - Arrays, Loop e Estilos
 
-01 - Buscando dados do paciente
+01 - Replicando a validação e o cálculo do IMC para todos os pacientes
 
-Capturado campos do html DOM.
-Capiturado os campos Peso e Altura.
+Utilizado for para parcorrer todos os paciêntes e calcular o IMC.
 
-//Retorna o <tr> inteiro e guarda em paciente pelo #primeiro-paciente que é o ID do <tr class="paciente" id="primeiro-paciente">
-var paciente = document.querySelector("#primeiro-paciente"); 
+//Array de paciente
+var pacientes = document.querySelectorAll(".paciente");
 
-//Retorna o <td> pela classe .info-peso
-var tdPeso = paciente.querySelector(".info-peso");
-//retorna o conteúdo do <td>
-var peso = tdPeso.textContent;
+//For faz um calculo em cada paciente
+for(var i = 0; i < pacientes.length; i++){   
 
-var tdAltura = paciente.querySelector(".info-altura");
-var altura = tdAltura.textContent;
+   var trPaciente = pacientes[i];
 
+   var tdPeso = trPaciente.querySelector('.info-peso');
+   var peso = tdPeso.textContent;
 
-02 - Acessando elementos dentro de outro elemento
+   var tdAltura = trPaciente.querySelector('.info-altura'); 
+   var altura = tdAltura.textContent;
 
-Temos o seguinte fragmento HTML:
-<table>
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Peso(kg)</th>
-            <th>Altura(m)</th>
-            <th>Gordura Corporal(%)</th>
-            <th>IMC</th>
-        </tr>
-    </thead>
-    <tbody id="tabela-pacientes">
-        <tr class="paciente" id="primeiro-paciente">
-            <td class="info-nome">Paulo</td>
-            <td class="info-peso">100</td>
-            <td class="info-altura">2.00</td>
-            <td class="info-gordura">10</td>
-            <td class="info-imc">0</td>
-        </tr>
-    </tbody>
-</table>
+   var tdImc = trPaciente.querySelector('.info-imc');
 
-Capturar o peso e altura
-var tdPeso = trPaciente.querySelector('.info-peso');
-var tdAltura = trPaciente.querySelector('.info-altura');
-Com JavaScript podemos obter um elemento pai, no caso trPaciente e dele realizar novas consultas para obter elementos filhos, como foi o caso das TD's de peso e altura.
+   var pesoEhValido = true;
+   var alturaEhValida = true;
 
+   if(peso <=0 || peso >= 1000) {
+      pesoEhValido = false;
+      tdImc.textContent = 'peso inválido';
+   }
+   
+   if(altura <= 0 || altura >= 3.00) {
+      alturaEhValida = false;
+      tdImc.textContent = 'altura inválida';
+   }
+   
+   if(pesoEhValido && alturaEhValida) {
+      var imc = peso / ( altura * altura);
+      tdImc.textContent = imc.toFixed(2);
+   }         
 
-03 - O prato do dia
-<table>
-<thead>
-    <tr>            
-        <th>Salada</th>
-        <th>Prato Principal</th>
-        <th>Acompanhamento</th>
-    </tr>
-</thead>
-<tbody>
-    <tr class="prato-do-dia" id="sexta">
-        <td class='salada'>Alface e Tomate</td>
-        <td class='principal'>Frango Grelhado</td>
-        <td class='acompanhamento'>Arroz e Feijão preto</td>        
-    </tr>
-    ...Outros dias da semana
-    <tr class="prato-do-dia" id="segunda">
-        <td class='salada'>Salada de Batata</td>
-        <td class='principal'>Macarrão com molho branco</td>
-        <td class='acompanhamento'>Milho, ervilha e brócolis</td>        
-    </tr>
-</tbody>
-</table>
-
-Exibir no console 
-Prato do dia!
-Alface e Tomate
-Frango Grelhado
-Arroz e Feijão Preto
-Qual código abaixo extrai as informações de um dia da tabela, por exemplo a sexta-feira, e imprime no console no formato que Mariana deseja?
-
-Resposta:
-var pratoDoDia = document.querySelector("#sexta");
-var salada = pratoDoDia.querySelector(".salada").textContent;
-var principal = pratoDoDia.querySelector(".principal").textContent;
-var acompanhamento = pratoDoDia.querySelector(".acompanhamento").textContent;
-
-console.log("Prato do dia!");
-console.log(salada);
-console.log(principal);
-console.log(acompanhamento);
-
-
-04 - Calculando e exibindo o IMC corretamente
-Presedente da variável separa por parâmetro o que deve ser processado primeiro
-var imc = peso / (altura * altura);
-
-
-05 - Desmembrando uma instrução em variáveis
-
-Representar o comando no console alert(78 / (1.71 * 1.71));
-
-var peso = 78;
-var altura = 1.71;
-var imc = peso / (altura * altura);
-alert(imc);
-
-
-06 - O indicador enviesado
-Exercicio de ordem de operação
-
-Taxa Sucesso = número de Vendas * (número clientes aboradados x média de tentativas por cliente);
-
-07 - Operadores Lógicos
-
-var pesoEhValido = true;
-var alturaEhValida = true;
-
-if (peso < 0 || peso > 1000) {
-    console.log("Peso inválido!");
-    pesoEhValido = false;
-}
-
-if (altura < 0 || altura > 3.00) {
-    console.log("Altura inválida!");
-    alturaEhValida = false;
-}
-
-if (alturaEhValida && pesoEhValido) {
-    var imc = peso / (altura * altura);
-    tdImc.textContent = imc;
 }
 
 
-08 - Validando e exibindo resultado
+02 - Estilos com JavaScript
 
-<table>
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Peso(kg)</th>
-            <th>Altura(m)</th>
-            <th>Gordura Corporal(%)</th>
-            <th>IMC</th>
-        </tr>
-    </thead>
-    <tbody id="tabela-pacientes">
-        <tr class="paciente" id="primeiro-paciente">
-            <td class="info-nome">Paulo</td>
-            <td class="info-peso">100</td>
-            <td class="info-altura">2.00</td>
-            <td class="info-gordura">10</td>
-            <td class="info-imc">0</td>
-        </tr>
-    </tbody>
-</table>
-Segundo, o código JavaScript que manipula esse HTML:
+Alterando estilo da página
+Criar estilo, classe no aruivo CSS e depois alterar no JS.
 
-var trPaciente = document.querySelector('#primeiro-paciente');
-var tdPeso = trPaciente.querySelector('.info-peso');
-var peso = tdPeso.textContent;
+03 - Calculando gastos
+Uso da propriedade .toFixed() para cadas decimais, exemplo uma porcentagem que retornoa uma casa decimal: 
 
-var tdAltura = trPaciente.querySelector('.info-altura'); 
-var altura = tdAltura.textContent;
+var despesaCategoria = 1532;
+var rendaTotal = 6255;
+var porcentagemCategoria = (despesaCategoria/rendaTotal) * 100;
+console.log(porcentagemCategoria);
 
-var tdImc = trPaciente.querySelector('.info-imc');
 
-var pesoEhValido = true;
-var alturaEhValida = true;
+04 - Seleção falhando
 
-if(peso <=0 || peso >= 1000) {
-    pesoEhValido = false;
-    tdImc.textContent = 'peso inválido';
- }
- 
- if(altura <= 0 || altura >= 3.00) {
-   alturaEhValida = false;
-   tdImc.textContent = 'altura inválida';
- }
+Selecionar váris elementos função querySelectorAll(), selecina todos os produtos da lista abaixo:
+.HTML
+<ul class="lista-produtos">
+    <li class="produto">Web cam</li>
+    <li class="produto">Microfone</li>
+    <li class="produto">Fundo verde</li>
+    <li class="produto">Notebook</li>
+</ul>
 
- console.log(pesoEhValido);
- console.log(alturaEhValida);
- 
- if(pesoEhValido && alturaEhValida) {
-    var imc = peso / ( altura * altura);
-    tdImc.textContent = imc; 
+.JS
+var produtos = document.querySelectorAll("produto");
 }
 
-09 - Informações escapando
-Funcionários de uma determinada área são acessíveis somente aos gerentes daquela área. Um código Javascript que verifica se um funcionário do setor de TI poderia ou não ter acesso aos dados. Funciona como consta abaixo:
-var setorTI = true;
-var gerente = true;
-if(setorTI == true || gerente == true){
-    console.log("Acesso permitido");
-}else{
-    console.log("Acesso negado")
-}   
-Quais funcionários têm acesso às informações do setor de TI.
 
-Como a condição lógica testada é um OU ( representado pelas barrinhas || no Javascript ), caso uma condição OU outra seja atendida, o acesso às informações é liberado, bastando-se cumprir uma delas.
-A primeira condição é setorTI == true, ou seja , se o funcionário for do setor de TI, ele já tem acesso, mesmo não sendo gerente.
-A segunda condição é gerente == true, ou seja, se o funcionário for gerente, o acesso é permitido, mesmo não sendo do setor de TI.
+05 - Um parágrafo azul
+
+Altera cor de um elemento:
+.HTML
+<p id="latim"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+
+.JS
+<script>
+    var paragrafo = document.querySelector("#latim");
+    paragrafo.style.color = "blue"; 
+</script>
 
 
-Apenas gerentes que são do departamento de TItenham acesso aos dados de seus funcionários ?
-var setorTI = true;
-var gerente = false;
-if(setorTI == true || gerente == true){
-    console.log("Acesso permitido");
-}else{
-    console.log("Acesso negado")
+06 - Mas e se for o fundo ?
+
+Altera fundo para azul:
+
+<script>
+    var paragrafo = document.querySelector("#latim");
+    paragrafo.style.backgroundColor = "blue";
+</script>
+
+
+07 - Acessando as classes
+
+Lista das classes de um HTML selecionado pela função querySelector?
+
+.classList é a única das opções que existe no JavaScript!
+
+<h1 class="titulo principal azul"> Sou o titulo principal! </h1>
+E no arquivo JavaScript, peça para imprimir o classList da tag h1:
+var titulo = document.querySelector("h1");
+console.log(titulo.classList);
+
+
+08 - Modificando os tÍtulos
+Rômulo deseja que todos os H2's de sua página tenham a classe "titulo", que modifica a fonte dos H2's e deixa eles com um destaque específico.
+Qual dos códigos abaixo implementa uma solução em Javascript para que todos os <h2> da página ganhem a classe "titulo"?
+
+A função responsável por adicionar uma classe é a função .add(), que recebe como parâmetro o nome da classe que queremos adicionar!
+Só devemos lembrar de chamar esta função depois de acessarmos a propriedade .classList, que contêm as classes do HTML selecionado. Então, para resolver o problema de Rômulo, devemos utilizar o código abaixo:
+var titulos = document.querySelectorAll("h2");
+
+for(var i = 0 ; i <  titulos.length ; i++){
+    var titulo = titulos[i];
+    titulo.classList.add("titulo");
 }
 
-Basta apenas trocar a condição lógica de OU (||) para E (&&) assim , só quem vai ter o acesso permitido são as pessoas que são do setor de TI E também são gerentes.
-Logo, o código final :
-var setorTI = true;
-var gerente = falSE;
-if(setorTI && gerente){
-    console.log("Acesso permitido");
-}else{
-    console.log("Acesso negado")
-}
 
-11 - Mãos na Massa: Calculando o IMC
-Implementado.
+09 - Mãos na Massa: O IMC de todos os pacientes
+feito
 
-12 - Mãos na Massa: Validando os dados do usuário
-Implementado
+10 - Mãos na Massa: Melhorando a visualização do erro
+Feito.
+
+
+
+
+#COMANDOS.
+
+var pacientes = document.querySelectorAll(".paciente");
+Cria array com todas os objetos marcados com a classe .paciente.
+
+imc.toFixed(2)
+altera valor para mostra duas cadas decimais.
+
+trPaciente.classList.add("paciente-invalido");
+Adiciona o CSS na classe pessoa.
+
+
 
 
 
