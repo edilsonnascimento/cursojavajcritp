@@ -1,144 +1,222 @@
-03 - Arrays, Loop e Estilos
+04 - Eventos, Formulários e Criando Elementos
 
-01 - Replicando a validação e o cálculo do IMC para todos os pacientes
+01 - Escutando eventos
 
-Utilizado for para parcorrer todos os paciêntes e calcular o IMC.
+Adicionar o evento addEventListener
 
-//Array de paciente
-var pacientes = document.querySelectorAll(".paciente");
+titulo.addEventListener("click",function(){
+   console.log("fui clicado");
+})
 
-//For faz um calculo em cada paciente
-for(var i = 0; i < pacientes.length; i++){   
+var botaoAdicionar = document.querySelector("#adicionar-paciente");
 
-   var trPaciente = pacientes[i];
+botaoAdicionar.addEventListener("click",function(){
+   console.log(botaoAdicionar);
+})
 
-   var tdPeso = trPaciente.querySelector('.info-peso');
-   var peso = tdPeso.textContent;
+02 - O botão que falhou
 
-   var tdAltura = trPaciente.querySelector('.info-altura'); 
-   var altura = tdAltura.textContent;
+Função anonima
+titulo.addEventListener("click",function(){
+   console.log("fui clicado");
+})
 
-   var tdImc = trPaciente.querySelector('.info-imc');
+titulo.addEventListener("click",function());
 
-   var pesoEhValido = true;
-   var alturaEhValida = true;
+Função linear
 
-   if(peso <=0 || peso >= 1000) {
-      pesoEhValido = false;
-      tdImc.textContent = 'peso inválido';
-   }
-   
-   if(altura <= 0 || altura >= 3.00) {
-      alturaEhValida = false;
-      tdImc.textContent = 'altura inválida';
-   }
-   
-   if(pesoEhValido && alturaEhValida) {
-      var imc = peso / ( altura * altura);
-      tdImc.textContent = imc.toFixed(2);
-   }         
+var tituloForm = document.querySelector("#titulo-form");
 
+tituloForm.addEventListener("click", mostraTituloPrincipal);
+
+function mostraTituloPrincipal(){
+   console.log("mais um papapapa....");
 }
 
+03 - Copiando valores
 
-02 - Estilos com JavaScript
-
-Alterando estilo da página
-Criar estilo, classe no aruivo CSS e depois alterar no JS.
-
-03 - Calculando gastos
-Uso da propriedade .toFixed() para cadas decimais, exemplo uma porcentagem que retornoa uma casa decimal: 
-
-var despesaCategoria = 1532;
-var rendaTotal = 6255;
-var porcentagemCategoria = (despesaCategoria/rendaTotal) * 100;
-console.log(porcentagemCategoria);
-
-
-04 - Seleção falhando
-
-Selecionar váris elementos função querySelectorAll(), selecina todos os produtos da lista abaixo:
-.HTML
-<ul class="lista-produtos">
-    <li class="produto">Web cam</li>
-    <li class="produto">Microfone</li>
-    <li class="produto">Fundo verde</li>
-    <li class="produto">Notebook</li>
-</ul>
-
-.JS
-var produtos = document.querySelectorAll("produto");
-}
-
-
-05 - Um parágrafo azul
-
-Altera cor de um elemento:
-.HTML
-<p id="latim"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-
-.JS
+<input class="frase"><button class="botao">Copiar</button><span class="copia"></span>
 <script>
-    var paragrafo = document.querySelector("#latim");
-    paragrafo.style.color = "blue"; 
-</script>
+    var inputFrase = document.querySelector('.frase');
+    var botao = document.querySelector('.botao');
+    var copia = document.querySelector('.copia');
+
+    function botaoHandler() {
+        copia.textContent = inputFrase.value;
+        inputFrase.value = '';
+    }
+
+    botao.addEventListener('click', botaoHandler);
+ </script>
 
 
-06 - Mas e se for o fundo ?
-
-Altera fundo para azul:
-
-<script>
-    var paragrafo = document.querySelector("#latim");
-    paragrafo.style.backgroundColor = "blue";
-</script>
+04 - Evitando o comportamento padrão de um evento
+var botaoAdicionar = document.querySelector("#adicionar-paciente");
+botaoAdicionar.addEventListener("click", function(event) {
+    event.preventDefault();
+    console.log("Oi eu sou o botao e fui clicado");
+});
 
 
-07 - Acessando as classes
+05 - Uma lista que não cresce
 
-Lista das classes de um HTML selecionado pela função querySelector?
+Outro exemplo para altear o comportamento padrão do form.
 
-.classList é a única das opções que existe no JavaScript!
+06 - Adicionando pacientes na tabela
 
-<h1 class="titulo principal azul"> Sou o titulo principal! </h1>
-E no arquivo JavaScript, peça para imprimir o classList da tag h1:
-var titulo = document.querySelector("h1");
-console.log(titulo.classList);
+Adicinado html.
+
+- Capitura o form
+var form = document.querySelector("#form-adiciona");
+
+- Captura valor do form
+var nome = form.nome.value;
+
+- Cria linha
+var pacienteTr = document.createElement("tr");
+
+- Cria <td>
+var nomeTd = document.createElement("td");
 
 
-08 - Modificando os tÍtulos
-Rômulo deseja que todos os H2's de sua página tenham a classe "titulo", que modifica a fonte dos H2's e deixa eles com um destaque específico.
-Qual dos códigos abaixo implementa uma solução em Javascript para que todos os <h2> da página ganhem a classe "titulo"?
+- Adiciona valro na td
+nomeTd.textContent = nome;
 
-A função responsável por adicionar uma classe é a função .add(), que recebe como parâmetro o nome da classe que queremos adicionar!
-Só devemos lembrar de chamar esta função depois de acessarmos a propriedade .classList, que contêm as classes do HTML selecionado. Então, para resolver o problema de Rômulo, devemos utilizar o código abaixo:
-var titulos = document.querySelectorAll("h2");
+- aplica td ao tr
+pacienteTr.appendChild(nomeTd);
 
-for(var i = 0 ; i <  titulos.length ; i++){
-    var titulo = titulos[i];
-    titulo.classList.add("titulo");
+- Capitura Tabela
+var tabela = document.querySelector("#tabela-pacientes");
+
+- Adiciona tr na tabela
+tabela.appendChild(pacienteTr);
+
+
+07 - De declaração de função para função anônima
+
+* Função
+var botao = document.querySelector('#botao');
+function botaoHandler() {
+    alert('Botão clicado');
+}
+botao.addEventListener('click', botaoHandler);
+
+* Função anônima:
+var botao = document.querySelector('#botao');
+botao.addEventListener('click', function() {
+    alert('Botão clicado');
+});
+
+
+08 - Tem nome ou não ?
+
+Qual dos seguintes códigos exibe o mesmo resultado que o Javascript abaixo ?
+var titulo = document.querySelector("#titulo");
+titulo.addEventListener("click", mostraMensagem);
+
+function mostraMensagem(){
+    console.log("Fui clicado");
 }
 
+09 - Criando um elemento
 
-09 - Mãos na Massa: O IMC de todos os pacientes
-feito
-
-10 - Mãos na Massa: Melhorando a visualização do erro
-Feito.
-
-
+Qual código Javascript abaixo cria uma <div> como esta :
+<div>
+    <h1 class="titulo"> Mirror Fashion </h1>
+    <p> Uma loja de roupa fantástica</p>
+</div>
 
 
-#COMANDOS.
+var div = document.createElement("div");
+var h1 = document.createElement("h1");
+h1.classList.add("titulo");
+h1.textContent = "Mirror Fashion";
 
-var pacientes = document.querySelectorAll(".paciente");
-Cria array com todas os objetos marcados com a classe .paciente.
+var p = document.createElement("p");
+p.textContent = "Uma loja de roupa fantástica";
 
-imc.toFixed(2)
-altera valor para mostra duas cadas decimais.
+div.appendChild(h1);
+div.appendChild(p);
 
-trPaciente.classList.add("paciente-invalido");
-Adiciona o CSS na classe pessoa.
+A função responsável por criar elementos no Javascript é a createElement().Com ela passamos o nome da tag que queremos criar e ela nos retorna um objeto HTML que pode ser alterado com as propriedades do Javascript, como a .textContent e a .classList.
+
+var titulo = document.querySelector("#titulo");
+titulo.addEventListener("click", function(){
+    console.log("Fui clicado");
+});
+
+
+10 - Mãos na Massa: Criando o formulário de adição de paciente
+Feito
+
+11 Mãos na Massa: Adicionando um paciente na tabela
+Feito
+
+12 - Para saber mais: event shortcut
+
+Se utilizar addEventListener(), em seguida vai encadeando para não encadear e executar apenas o último evento pode utilizar o onClick.
+
+<!doctype html>
+<html>
+  <head>
+
+    <meta charset="UTF-8">
+    <title>onload test</title>    
+
+  </head>
+
+  <body>
+    <button id="botao">clique-me</button>           
+    <script>
+        var botao = document.querySelector('#botao');
+
+        function botaoHandler() {
+            alert('Botão clicado');
+        }
+
+        function outroHandler() {
+            alert('Botão clicado também!');
+        }
+
+        //botao.addEventListener('click', botaoHandler);
+        //botao.addEventListener('click', outroHandler);
+        botao.onclick = botaoHandler;
+        botao.onclick = outroHandler;
+    </script>
+
+  </body>
+</html>
+
+#
+
+Cria evento.
+var botaoAdicionar = document.querySelector("#adicionar-paciente");
+titulo.addEventListener("click",function(){
+   console.log("fui clicado");
+})
+
+Altera comportamento padrão do FORM(enviar form e reload da página)
+event.preventDefault();
+
+Criar Elemento <h1>, <p>, <td>, <tr>, ...
+Exemplo:
+Qual código Javascript abaixo cria uma <div> como esta :
+<div>
+    <h1 class="titulo"> Mirror Fashion </h1>
+    <p> Uma loja de roupa fantástica</p>
+</div>
+
+var div = document.createElement("div");
+var h1 = document.createElement("h1");
+h1.classList.add("titulo");
+h1.textContent = "Mirror Fashion";
+
+var p = document.createElement("p");
+p.textContent = "Uma loja de roupa fantástica";
+
+div.appendChild(h1);
+div.appendChild(p);
+
 
 
 
