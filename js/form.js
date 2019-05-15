@@ -7,7 +7,7 @@ botaoAdicionar.addEventListener("click", function(event){
    var form = document.querySelector("#form-adiciona");   
 
    var paciente = obtemPacienteDoFormulario(form);
-   console.log(paciente.altura);
+   
    var pacienteTr = montarTr(paciente);
 
    var erros = validaPaciente(paciente);

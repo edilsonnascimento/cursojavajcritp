@@ -1,56 +1,118 @@
-06 - Validação de Formulários
+07 - Remoção, Delegação e Animação
 
-01 - Validando os dados do formulário
-Extraindo código de validação, dos campos do paciente.
+01 - Explicação 
 
-02 - Exibindo mensagens de erro
-Teste retornar uma mensagem de erro ou nada se tiver erro.
+# Remove.js
 
-04 - Iterando com o forEach
+// vetor com todos os pacientes.
+var pacientes = document.querySelectorAll(".paciente");
 
-Em um arquivo JavaScript, há um array de instrutores da Alura:
-var nomes = ["Douglas", "Flávio", "Nico", "Rômulo", "Leonardo"];
-Para percorrer o array e imprimir cada instrutor, deixando claro que eles são instrutores da Alura, podemos utilizar o loop for:
-var nomes = ["Douglas", "Flávio", "Nico", "Rômulo", "Leonardo"];
+// percorre o array de pacientes atribui eveto de duplo clique e remove o paciente atual(this).
+pacientes.forEach(function(paciente) {
+    paciente.addEventListener("dblclick", function(){
+        this.remove();
+    });
+});
 
-for (var i = 0; i < nomes.length; i++) {
-    console.log(nomes[i] + " é instrutor da Alura");
+
+02 - Um duplo clique
+Qual o nome do evento que escuta um clique duplo do usuário em algum elemento?
+O nome do evento correto é dblclick ! Além dos eventos que já vimos aqui no curso, existem muitos outros tipos, que variam desde aonde o seu usuário interage com a página até quando ele altera o tamanho do navegador!
+Você pode conferir https://developer.mozilla.org/en-US/docs/Web/Events os diversos tipos de eventos que existem no navegador.
+
+
+03 - Delegando eventos
+Os eventos vão subindo para os elementos superiores, até ser escutado.
+Exemplo: <table>  escuta os seus filhos: <th>, <tr> e <td>.
+
+//captura elemento da tabela.
+var tabela = document.querySelector("table");
+
+//escata o evento de duplo clique.
+tabela.addEventListener("dblclick", function(event){
+    console.log(event.target);
+    
+});
+
+
+04 - O escolhido foi você!
+
+this
+
+HTML
+<ul>
+    <li>A</li>
+    <li>B</li>
+    <li>C</li>
+</ul>
+
+JS
+<script>
+    var lis = document.querySelectorAll('li');
+    for(var i = 0; i < lis.length; i++) {
+        lis[i].addEventListener('click', function() {
+            alert(this.textContent);
+        });
+    }
+</script>
+
+Quando clicar em qualquer <li> ira mostrar a letra(A, B, C) textContent.
+
+05 - Analisando o código
+<ul class="lista">
+    <li>A</li>
+    <li>B</li>
+    <li>C</li>
+</ul>
+
+<input id="campo"><button id="botao">Adiciona</button>
+<script>
+    var lis = document.querySelectorAll('li');
+    for(var i = 0; i < lis.length; i++) {
+        lis[i].addEventListener('click', function() {
+            alert(this.textContent);
+        });
+    }
+    var botao = document.querySelector('#botao');
+    var input = document.querySelector('#campo');
+    var lista = document.querySelector('.lista');
+    botao.addEventListener('click',function() {
+        var li = document.createElement('li');
+        li.textContent = input.value;
+        lista.appendChild(li);
+    });
+</script>
+Adiciona um elemento porem não exibe a mensagem de alet, apra essa nova linha criada.
+
+06 - Animando a remoção do paciente
+.fadeOut {
+    opacity: 0; // não exibe o conteúdo do elemento.
+    transition: 0.5s; // 5 segundos para apagar o conteúdo do elemento.
 }
-Mas vimos nesse capítulo uma outra forma de iterar sobre os elementos de um array, isto é, com o método forEach(). Como ficaria a implementação anterior, utilizando o forEach()?
 
-Todo array possui a função forEach(), em JavaScript. Passamos para ela uma função por parâmetro, e nessa função fazemos o que quisermos para cada item do array. O item do array é recebido por parâmetro na função interna:
-nomes.forEach(function(nome) {
-    console.log(nome + " é instrutor da Alura");
-})
 
-05 - A propriedade innerHTML
 
-Sobre a propriedade innerHTML, qual das afirmativas abaixo está incorreta?
 
-Para editar o HTML interno de um elemento, basta passar o novo conteúdo por parâmetro para a propriedade.
-Não, innerHTML é uma propriedade, não uma função, então ela recebe o novo conteúdo, ou seja, utilizamos um sinal de igual (=):
-document.querySelector("#alura").innerHTML = "Novo texto"
+07 - Mãos na massa: removendo os paciente
+Implementado.
+var tabela = document.querySelector("table");
 
-Com a propriedade innerHTML, podemos editar obter o conteúdo HTML (HTML interno) de um elemento.
-Para editar o HTML interno, como o innerHTML é uma propriedade, utilizamos um sinal de igual (=). Fazemos:
-ObjetoDeUmElementoHTML.innerHTML = "Novo conteúdo"
-E para obter o HTML interno, fazemos:
-ObjetoDeUmElementoHTML.innerHTML
-O seu retorno será todo o conteúdo HTML, tanto tags, atributos, classes, etc, no formato de uma String.
+tabela.addEventListener("dblclick", function(event) {
 
-06 - Porque não consigo modificar o HTML interno de um elemento?
+    if(event.target.tagName != "TH"){    
+        event.target.parentNode.classList.add("fadeOut");
+        setTimeout(function() {
+            event.target.parentNode.remove();        
+        }, 500);
+    }
+});
 
-Rafael quer modificar o conteúdo do seguinte HTML, para utilizar o seu nome:
-<p id="nome">Meu nome é Tadeu</p>
-Ele conhece a propriedade innerHTML, e sabe que com ela pode modificar o HTML interno de um elemento, então ele fez o seguinte código:
-var nome = document.querySelector("#nome").innerHTML;
-nome = "Meu nome é Rafael";
-Mas Rafael percebeu que o seu código não funciona, o que ele fez de errado? Pense no que Rafael fez de errado e em seguida veja a resposta do instrutor.
+08 - Mãos na massa: animando a remoção
 
-var nome = document.querySelector("#nome").innerHTML;
-nome = "Meu nome é Rafael";
-Na primeira linha, Rafael está obtendo o conteúdo do HTML interno do elemento <p>. Na segunda linha, ele apenas substitui o conteúdo dessa variável, ou seja, não define o innerHTML do elemento. Para modificar o HTML interno, Rafael deve alterar a propriedade innerHTML na segunda linha, e removê-la da primeira:
-var nome = document.querySelector("#nome");
-nome.innerHTML = "Meu nome é Rafael";
+INDEX.CSS
 
+.fadeOut {
+    opacity: 0;
+    transition: 0.5s;
+}
 
