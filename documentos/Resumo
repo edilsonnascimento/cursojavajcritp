@@ -1,118 +1,150 @@
-07 - Remoção, Delegação e Animação
+08 - Filtrando uma tabela
 
-01 - Explicação 
+01 - Filtrando os pacientes da tabela
 
-# Remove.js
-
-// vetor com todos os pacientes.
-var pacientes = document.querySelectorAll(".paciente");
-
-// percorre o array de pacientes atribui eveto de duplo clique e remove o paciente atual(this).
-pacientes.forEach(function(paciente) {
-    paciente.addEventListener("dblclick", function(){
-        this.remove();
-    });
-});
-
-
-02 - Um duplo clique
-Qual o nome do evento que escuta um clique duplo do usuário em algum elemento?
-O nome do evento correto é dblclick ! Além dos eventos que já vimos aqui no curso, existem muitos outros tipos, que variam desde aonde o seu usuário interage com a página até quando ele altera o tamanho do navegador!
-Você pode conferir https://developer.mozilla.org/en-US/docs/Web/Events os diversos tipos de eventos que existem no navegador.
-
-
-03 - Delegando eventos
-Os eventos vão subindo para os elementos superiores, até ser escutado.
-Exemplo: <table>  escuta os seus filhos: <th>, <tr> e <td>.
-
-//captura elemento da tabela.
-var tabela = document.querySelector("table");
-
-//escata o evento de duplo clique.
-tabela.addEventListener("dblclick", function(event){
-    console.log(event.target);
-    
-});
-
-
-04 - O escolhido foi você!
-
-this
+Criado campo de pesquisa e JS para pegar elementos para pesquisa.
 
 HTML
-<ul>
-    <li>A</li>
-    <li>B</li>
-    <li>C</li>
-</ul>
+Adiconado campo
+ <label for="filtrar-tabela">Filtre:</label>
+    <input type="text" name="filtro" id="filtrar-tabela" placeholder="Digite o nome do paciente">
 
-JS
-<script>
-    var lis = document.querySelectorAll('li');
-    for(var i = 0; i < lis.length; i++) {
-        lis[i].addEventListener('click', function() {
-            alert(this.textContent);
-        });
-    }
-</script>
-
-Quando clicar em qualquer <li> ira mostrar a letra(A, B, C) textContent.
-
-05 - Analisando o código
-<ul class="lista">
-    <li>A</li>
-    <li>B</li>
-    <li>C</li>
-</ul>
-
-<input id="campo"><button id="botao">Adiciona</button>
-<script>
-    var lis = document.querySelectorAll('li');
-    for(var i = 0; i < lis.length; i++) {
-        lis[i].addEventListener('click', function() {
-            alert(this.textContent);
-        });
-    }
-    var botao = document.querySelector('#botao');
-    var input = document.querySelector('#campo');
-    var lista = document.querySelector('.lista');
-    botao.addEventListener('click',function() {
-        var li = document.createElement('li');
-        li.textContent = input.value;
-        lista.appendChild(li);
-    });
-</script>
-Adiciona um elemento porem não exibe a mensagem de alet, apra essa nova linha criada.
-
-06 - Animando a remoção do paciente
-.fadeOut {
-    opacity: 0; // não exibe o conteúdo do elemento.
-    transition: 0.5s; // 5 segundos para apagar o conteúdo do elemento.
+CSS
+#filtrar-tabela {
+    width: 200px;
+    height: 35px;
+    margin-bottom: 10px;
 }
 
 
+//Cria objeto campoFiltro
+var campoFiltro = document.querySelector("#filtrar-tabela");
+//Cria array de pacientes.
+var pacientes = document.querySelectorAll(".paciente");
 
-
-07 - Mãos na massa: removendo os paciente
-Implementado.
-var tabela = document.querySelector("table");
-
-tabela.addEventListener("dblclick", function(event) {
-
-    if(event.target.tagName != "TH"){    
-        event.target.parentNode.classList.add("fadeOut");
-        setTimeout(function() {
-            event.target.parentNode.remove();        
-        }, 500);
-    }
+//escuta oque é digitado no campo filtro
+campoFiltro.addEventListener("input", function(){
+    console.log(this.value);
+//percorre a lista de paciente pegando o nome toda vez que é digitado alguma coisa no campo filtro
+    pacientes.forEach(function(paciente){
+        var tdnome = paciente.querySelector(".info-nome").textContent;
+        console.log(tdnome);
+    });    
 });
 
-08 - Mãos na massa: animando a remoção
+var campoPostagem = document.querySelector("#corpo-postagem");
+campoPostagem.addEventListener("input", atualizaCaracteres);
 
-INDEX.CSS
+02 - Verificando o tamanho da postagem (PERGUNTA)
+Algumas redes sociais, como o Twitter, tem uma limitação da quantidade de caracteres das suas postagens. Para verificar isso, eles possuem um contador de caracteres, para limitar o tamanho dos textos postados:
+<body>
+    <textarea id="corpo-postagem" cols="40" rows="5"></textarea>
+    <p>Caracteres: <span id="numero-caracteres">0</span> caracteres.</p>
+    <script src="contador.js"></script>
+</body>
+// contador.js
 
-.fadeOut {
-    opacity: 0;
-    transition: 0.5s;
+function atualizaCaracteres() {
+    var postagem = document.querySelector("#corpo-postagem").value;
+    var caracteres = postagem.value.length;
+
+    var contador = document.querySelector("#numero-caracteres");
+    contador.innerHTML = caracteres;
 }
+A função atualizaCaracteres está correta, porém atualmente ela só pode ser chamada através do console. Qual código abaixo pode ser adicionado ao contador.js para que o número de caracteres seja atualizado conforme o usuário escreva a postagem?
+var campoPostagem = document.querySelector("#corpo-postagem");
+campoPostagem.addEventListener("input", atualizaCaracteres);
+A função addEventListener() recebe dois parâmetros, o nome do evento a ser escutado e uma função com a ação que deve executar. A função já está feita, é a atualizaCaracteres e o evento é o input, para que o contador seja atualizado conforme o usuário escreve.
+
+03 - Implementando a lógica de filtragem
+
+.CSS
+
+.invisivel{
+	display: none;
+}
+
+.JS
+
+// Cria objeto com o campo filtro.
+var campoFiltro = document.querySelector("#filtrar-tabela");
+
+// cria array com todos os pacientes.
+var pacientes = document.querySelectorAll(".paciente");
+
+// adiciona um escutador de texto no objeto campoFiltro.
+campoFiltro.addEventListener("input", function(){
+
+    //se campo vazio faz
+    if(campoFiltro.value.length > 0){
+
+        //percorre todos os pacientes
+        pacientes.forEach(function(paciente){
+       
+            // pega o conteúdo do campo nome.
+            var nome = tdNome = paciente.querySelector(".info-nome").textContent;            
+
+            if(nome != campoFiltro.value){
+                paciente.classList.add("invisivel");
+            }else{
+                paciente.classList.remove("invisivel");
+            }
+        });
+    }else{
+        pacientes.forEach(function(paciente){
+            paciente.classList.remove("invisivel");
+        });
+    }
+
+});
+
+
+04 - Filtrando com expressão regular
+
+var campoFiltro = document.querySelector("#filtrar-tabela");
+var pacientes = document.querySelectorAll(".paciente");
+
+campoFiltro.addEventListener("input", function(){    
+   
+    //Cria a expresssão Regular retirando o sensentive "i".
+    var expressao = new RegExp(campoFiltro.value, "i");     
+    
+    if(campoFiltro.value.length > 0){
+        pacientes.forEach(function(paciente){
+            var nome = tdNome = paciente.querySelector(".info-nome").textContent;                        
+
+            //Testa com o conteúdo do campo nome
+            if(!expressao.test(nome)){
+                paciente.classList.add("invisivel");
+            }else{
+                paciente.classList.remove("invisivel");
+            }
+        });
+    }else{
+        pacientes.forEach(function(paciente){
+            paciente.classList.remove("invisivel");
+        });
+    }
+
+});
+
+05 - Criando uma Regex
+
+O primeiro parâmetro que devemos passar para o construtor é o padrão (o texto da expressão regular, o que deve ser buscado) e o segundo parâmetro são uma ou mais flags (representando como queremos que a expressão regular busque). Por exemplo, podemos definir que não queremos que haja distinção entre letras maiúsculas e minúsculas, através da flag i.
+Para saber mais sobre expressões regulares, há um curso bem interessante aqui na Alura, o curso Expressões regulares: Capturando textos de forma mágica.
+
+06 - Mãos na massa: filtrando a tabela
+Implementado.
+
+07 - Mãos na massa: buscando pacientes
+Implementado.
+
+08 - Para saber mais: filtrando sem regex?
+Implementado.
+
+
+
+
+
+
 
