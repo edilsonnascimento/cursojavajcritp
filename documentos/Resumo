@@ -1,149 +1,122 @@
-08 - Filtrando uma tabela
-
-01 - Filtrando os pacientes da tabela
-
-Criado campo de pesquisa e JS para pegar elementos para pesquisa.
-
-HTML
-Adiconado campo
- <label for="filtrar-tabela">Filtre:</label>
-    <input type="text" name="filtro" id="filtrar-tabela" placeholder="Digite o nome do paciente">
-
-CSS
-#filtrar-tabela {
-    width: 200px;
-    height: 35px;
-    margin-bottom: 10px;
-}
+09 - AjaxBuscando pacientes com AJAX
 
 
-//Cria objeto campoFiltro
-var campoFiltro = document.querySelector("#filtrar-tabela");
-//Cria array de pacientes.
-var pacientes = document.querySelectorAll(".paciente");
+01 - Introdução ao AJAX
 
-//escuta oque é digitado no campo filtro
-campoFiltro.addEventListener("input", function(){
-    console.log(this.value);
-//percorre a lista de paciente pegando o nome toda vez que é digitado alguma coisa no campo filtro
-    pacientes.forEach(function(paciente){
-        var tdnome = paciente.querySelector(".info-nome").textContent;
-        console.log(tdnome);
-    });    
-});
+Buscando dados da API (https://api-pacientes.herokuapp.com/pacientes) e adicionando no Site da aparecida.
 
-var campoPostagem = document.querySelector("#corpo-postagem");
-campoPostagem.addEventListener("input", atualizaCaracteres);
+- Adicionado um botão de busca no HTML.
+<button id="buscar-pacientes" class="botao bto-principal">Buscar Pacientes</button>
 
-02 - Verificando o tamanho da postagem (PERGUNTA)
-Algumas redes sociais, como o Twitter, tem uma limitação da quantidade de caracteres das suas postagens. Para verificar isso, eles possuem um contador de caracteres, para limitar o tamanho dos textos postados:
-<body>
-    <textarea id="corpo-postagem" cols="40" rows="5"></textarea>
-    <p>Caracteres: <span id="numero-caracteres">0</span> caracteres.</p>
-    <script src="contador.js"></script>
-</body>
-// contador.js
+- criado arquivo buscar-pacientes.js e relacionado HTML
+<script src="js/buscar-pacientes.js"></script>
 
-function atualizaCaracteres() {
-    var postagem = document.querySelector("#corpo-postagem").value;
-    var caracteres = postagem.value.length;
+- Adicionado o códig abaixo no JS, para buscar os pacientes quando clicado no botão Buscar Pacientes.
 
-    var contador = document.querySelector("#numero-caracteres");
-    contador.innerHTML = caracteres;
-}
-A função atualizaCaracteres está correta, porém atualmente ela só pode ser chamada através do console. Qual código abaixo pode ser adicionado ao contador.js para que o número de caracteres seja atualizado conforme o usuário escreva a postagem?
-var campoPostagem = document.querySelector("#corpo-postagem");
-campoPostagem.addEventListener("input", atualizaCaracteres);
-A função addEventListener() recebe dois parâmetros, o nome do evento a ser escutado e uma função com a ação que deve executar. A função já está feita, é a atualizaCaracteres e o evento é o input, para que o contador seja atualizado conforme o usuário escreve.
+// cria objeto buscarPacientes, do botão.
+var buscarPacienes = document.querySelector("#buscar-pacientes");
+// adiciona escuta do evento de click.
+buscarPacienes.addEventListener("click", function(){
 
-03 - Implementando a lógica de filtragem
+    //objeto responsável pela requisição HTTP.
+    var xhr = new XMLHttpRequest();
 
-.CSS
+    //congingura objeto para requisição de GET.
+    xhr.open("GET", "https://api-pacientes.herokuapp.com/pacientes");
 
-.invisivel{
-	display: none;
-}
+    // adiciona evento de escuta quando carregar a página
+    xhr.addEventListener("load", function(){
+        console.log(xhr.responseText);
+    });
 
-.JS
-
-// Cria objeto com o campo filtro.
-var campoFiltro = document.querySelector("#filtrar-tabela");
-
-// cria array com todos os pacientes.
-var pacientes = document.querySelectorAll(".paciente");
-
-// adiciona um escutador de texto no objeto campoFiltro.
-campoFiltro.addEventListener("input", function(){
-
-    //se campo vazio faz
-    if(campoFiltro.value.length > 0){
-
-        //percorre todos os pacientes
-        pacientes.forEach(function(paciente){
-       
-            // pega o conteúdo do campo nome.
-            var nome = tdNome = paciente.querySelector(".info-nome").textContent;            
-
-            if(nome != campoFiltro.value){
-                paciente.classList.add("invisivel");
-            }else{
-                paciente.classList.remove("invisivel");
-            }
-        });
-    }else{
-        pacientes.forEach(function(paciente){
-            paciente.classList.remove("invisivel");
-        });
-    }
+    //envia requisição.
+    xhr.send();
 
 });
 
 
-04 - Filtrando com expressão regular
+02 - O Objeto requisitor
+Qual dos códigos abaixo consegue criar um objeto responsável por fazer uma requisição HTTP com o Javascript ?
 
-var campoFiltro = document.querySelector("#filtrar-tabela");
-var pacientes = document.querySelectorAll(".paciente");
+O objeto XMLHttpRequest é quem é responsável por fazer requisições HTTP assíncronas com Javascript. Apesar de ter o XML no nome hoje em dia este objeto pode trafegar diversos outros tipos de dados além do XML, este nome só se manteve devido a um legado histórico.
+E para instanciar um novo Objeto XMLHttpRequest devemos utilizar a sintaxe com a palavrinha new :
+var xhr = new XMLHttpRequest();
 
-campoFiltro.addEventListener("input", function(){    
-   
-    //Cria a expresssão Regular retirando o sensentive "i".
-    var expressao = new RegExp(campoFiltro.value, "i");     
-    
-    if(campoFiltro.value.length > 0){
+03 - Configurando nossa requisição
+
+Dado que criamos o objeto abaixo:
+var xhr = new XMLHttpRequest();
+Qual dos seguintes códigos configura a nossa requisição para ser do tipo POST e para o endereço www.xyz.com.br/compras ?
+Dado que temos um XMLHttpRequest, precisamos configurar nossa requisição para dizer para qual servidor queremos enviá-la e também qual método HTTP devemos usar.
+Fazemos isto através do método .open(), passando o método e a url : xhr.open("POST","www.xyz.com.br/compras");
+
+04 - Tratando a resposta da requisição
+
+Inserindo JSON, recebido da API no HTML, de forma assincrona.
+A técnica utilizada nessa aula é conhecida como AJAX, essa maneira de fazer uma requisição de forma assíncrona com JavaScript.
+
+//Busca pacientes do HTML
+var buscarPacientes = document.querySelector("#buscar-pacientes");
+//adiciona escutador de click
+buscarPacienes.addEventListener("click", function(){
+    //cria objeto para requisição web.
+    var xhr = new XMLHttpRequest();
+    //paremetros do objeto
+    xhr.open("GET", "https://api-pacientes.herokuapp.com/pacientes");
+    //escutador de pagina carregada 
+    xhr.addEventListener("load", function(){
+        //parcear ou serializa de JSON para objeto, neste caso ARRAY. 
+        var pacientes = JSON.parse(xhr.responseText);
+        //percorre array e adiona o paciente no HTML
         pacientes.forEach(function(paciente){
-            var nome = tdNome = paciente.querySelector(".info-nome").textContent;                        
-
-            //Testa com o conteúdo do campo nome
-            if(!expressao.test(nome)){
-                paciente.classList.add("invisivel");
-            }else{
-                paciente.classList.remove("invisivel");
-            }
-        });
-    }else{
-        pacientes.forEach(function(paciente){
-            paciente.classList.remove("invisivel");
-        });
-    }
+            adicionarPacienteNaTabela(paciente);
+        });    
+    });
+    //envia dados para endereço do xhr.open(); 
+    xhr.send();
 
 });
 
-05 - Criando uma Regex
+05 - Capturando erros de requisição
 
-O primeiro parâmetro que devemos passar para o construtor é o padrão (o texto da expressão regular, o que deve ser buscado) e o segundo parâmetro são uma ou mais flags (representando como queremos que a expressão regular busque). Por exemplo, podemos definir que não queremos que haja distinção entre letras maiúsculas e minúsculas, através da flag i.
-Para saber mais sobre expressões regulares, há um curso bem interessante aqui na Alura, o curso Expressões regulares: Capturando textos de forma mágica.
+Tratando erros da resposta da web.
+- Adicionado span no html para exibir o erro
+<span id="erro-ajax" class="invisivel">Erro ao buscar pacinetes</span>
 
-06 - Mãos na massa: filtrando a tabela
-Implementado.
+- criado objeto erroAjax
+var erroAjax = document.querySelector("#erro-ajax");
 
-07 - Mãos na massa: buscando pacientes
-Implementado.
-
-08 - Para saber mais: filtrando sem regex?
-Implementado.
+- caso erro mostra erro
+erroAjax.classList.remove("invisivel");
 
 
+06 - O XMLHttpRequest
 
+Sobre o XMLHttpRequest , julgue as afirmativas abaixo e selecione as verdadeiras:
+1- É necessário configurar a requisição com o método .open(), com o método HTTP e o endereço do servidor para qual a requisição será feita
+2- É utilizado para fazer requisições assíncronas e trafegar apenas dados do tipo XML.
+3- A requisição só é enviada após o método .send().
+
+A primeira afirmativa é verdadeira.
+A terceira afirmativa é verdadeira.
+O XMLHtttpRequest é objeto responsável por fazer requisições HTTP com o Javascript.
+Olhando as afirmativas, sabemos sim que ele deve ser configurado anteriormente com a função .open(), que ele pode trafegar diversos tipos de dados e não somente o XML ( ele tem esse nome graças a um vestígio histórico), e a requisição só é enviada mesmo após chamarmos o método .send().
+
+07 - Encerramento
+Agradecimento
+
+08 - Mãos na massa: conectando com servidor
+Implementado
+
+09 - Mãos na massa: adicionando os pacientes na tabela
+Implementado
+
+10 - Mãos na massa: lidando com erros da requisição
+Implementado
+
+11  - Download do projeto final
+
+Com tudo pronto, é possível baixar a versão final do site da Aparecida Nutrição clicando aqui.(https://s3.amazonaws.com/caelum-online-public/introducao-javascript/stages/introducao-javascript-final.zip)
 
 
 
